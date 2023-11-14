@@ -8,7 +8,15 @@ namespace LawnM2
 {
     public abstract class Robot
     {
-        private double battery = 100;
+        protected int posX;
+        protected int posY;
+        public double battery = 100;
+        public Robot(int startX, int startY)
+        {
+            posX = startX;
+            posY = startY;
+        }
+
         public double BatteryLife
         {
             get

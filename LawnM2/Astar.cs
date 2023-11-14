@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace LawnM2
 {
-    internal class Algorithm : Robot
+    internal class Astar : Robot
     {
+        public Astar(int startX, int startY) : base(startX, startY)
+        {
+        }
+
         public override void Cut(string[,] arr)
         {
             throw new NotImplementedException();
