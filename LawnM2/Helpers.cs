@@ -31,6 +31,8 @@ Q - Quit Game");
                         Console.Clear();
                         string[,] garden = Garden.MakeGarden(height, width, maxObstacles);
                         Garden.ShowGarden(garden);
+                        DFS dfsRobot = new DFS(0, 0);
+                        dfsRobot.Cut(garden);
                         break;
                     case "g":
                         Console.Clear();

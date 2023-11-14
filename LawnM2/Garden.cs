@@ -48,5 +48,18 @@ namespace LawnM2
                 Console.Write("\n");
             }
         }
+
+        public static void PrintGarden(string[,] garden)
+        {
+            Console.Clear();
+            for (int i = 0; i < garden.GetLength(0); i++)
+            {
+                for (int j = 0; j < garden.GetLength(1); j++)
+                {
+                    Console.Write(garden[i, j]);
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }
