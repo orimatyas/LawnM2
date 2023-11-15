@@ -22,34 +22,31 @@ namespace LawnM2
             Explore(posX, posY);
         }
 
-        private void Explore(int x, int y)
+        protected override void Explore(int x, int y)
         {
             if (!IsValidMove(x, y))
             {
                 return;
             }
-
-            // Simulate cutting the grass and decrease battery
             visited[x, y] = true;
             garden[x, y] = "x ";
             DecreaseBattery(0.5);
             Garden.PrintGarden(garden);
             System.Threading.Thread.Sleep(50);
             garden[x, y] = "- ";
-            // Explore neighboring cells
-            Explore(x + 1, y); // Right
-            Explore(x - 1, y); // Left
-            Explore(x, y + 1); // Down
-            Explore(x, y - 1); // Up
-            
+            Explore(x + 1, y);
+            Explore(x - 1, y);
+            Explore(x, y + 1);
+            Explore(x, y - 1);
+
 
         }
 
         private bool IsValidMove(int x, int y)
         {
-            // Check for out-of-bounds, battery life, already visited, and obstacles
             return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
                 && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
         }
+
     }
 }

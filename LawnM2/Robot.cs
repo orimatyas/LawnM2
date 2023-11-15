@@ -10,14 +10,14 @@ namespace LawnM2
     {
         protected int posX;
         protected int posY;
-        public double battery = 100;
-        public Robot(int startX, int startY)
+        protected double battery = 100;
+        protected Robot(int startX, int startY)
         {
             posX = startX;
             posY = startY;
         }
 
-        public double BatteryLife
+        protected double BatteryLife
         {
             get
             {
@@ -36,18 +36,21 @@ namespace LawnM2
             }
         }
         public abstract void Cut(string[,] arr);
-        public void DecreaseBattery(double b)
+        protected void DecreaseBattery(double b)
         {
-            try
-            {
-                BatteryLife = BatteryLife - b;
-            }
-            catch
+            BatteryLife = BatteryLife - b;
+            CheckForRecharge();
+        }
+
+        protected void CheckForRecharge()
+        {
+            if (battery <= 0)
             {
                 Console.WriteLine("Recharge battery");
-                BatteryLife = 100;
-                Console.ReadKey();
+                battery = Convert.ToInt32(Console.ReadLine());
             }
         }
+
+        protected abstract void Explore(int x, int y);
     }
 }

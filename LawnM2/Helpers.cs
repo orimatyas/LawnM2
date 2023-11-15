@@ -25,7 +25,7 @@ G - Garden
 L _ Lawn Mower
 Q - Quit Game");
                 var optSelected = Console.ReadLine();
-                switch (optSelected.Trim().ToLower()) 
+                switch (optSelected.Trim().ToLower())
                 {
                     case "s":
                         Console.Clear();
@@ -128,6 +128,6 @@ Currently in use: {selectedMethod}");
             while (optionsOn);
         }
 
-      
+
     }
 }
