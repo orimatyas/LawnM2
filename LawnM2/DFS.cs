@@ -8,9 +8,6 @@ namespace LawnM2
 {
     internal class DFS : Robot
     {
-        private bool[,] visited;
-        private string[,] garden;
-
         public DFS(int startX, int startY) : base(startX, startY)
         {
         }
@@ -22,7 +19,7 @@ namespace LawnM2
             Explore(posX, posY);
         }
 
-        protected override void Explore(int x, int y)
+        protected void Explore(int x, int y)
         {
             if (!IsValidMove(x, y))
             {
@@ -38,15 +35,6 @@ namespace LawnM2
             Explore(x - 1, y);
             Explore(x, y + 1);
             Explore(x, y - 1);
-
-
         }
-
-        private bool IsValidMove(int x, int y)
-        {
-            return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
-                && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
-        }
-
     }
 }

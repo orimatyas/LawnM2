@@ -17,9 +17,5 @@ namespace LawnM2
             throw new NotImplementedException();
         }
 
-        protected override void Explore(int x, int y)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

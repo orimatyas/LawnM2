@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,45 @@ namespace LawnM2
         {
         }
 
-        public override void Cut(string[,] arr)
+        public override void Cut(string[,] garden)
         {
-            throw new NotImplementedException();
+            this.garden = garden;
+            visited = new bool[garden.GetLength(0), garden.GetLength(1)];
+
+            var queue = new Queue<(int, int)>();
+            queue.Enqueue((posX, posY));
+
+            while (queue.Count > 0)
+            {
+                var (x, y) = queue.Dequeue();
+
+                if (!IsValidMove(x, y)) continue;
+
+                visited[x, y] = true;
+                garden[x, y] = "x ";
+                DecreaseBattery(0.5);
+                Garden.PrintGarden(garden);
+                System.Threading.Thread.Sleep(50);
+                garden[x, y] = "- ";
+
+                EnqueueNeighbors(queue, x, y);
+            }
         }
 
-        protected override void Explore(int x, int y)
+        private void EnqueueNeighbors(Queue<(int, int)> queue, int x, int y)
         {
-            throw new NotImplementedException();
+            EnqueueIfValid(queue, x + 1, y);
+            EnqueueIfValid(queue, x - 1, y);
+            EnqueueIfValid(queue, x, y + 1);
+            EnqueueIfValid(queue, x, y - 1);
+        }
+
+        private void EnqueueIfValid(Queue<(int, int)> queue, int x, int y)
+        {
+            if (x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1) && !visited[x, y])
+            {
+                queue.Enqueue((x, y));
+            }
         }
     }
 }

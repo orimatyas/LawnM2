@@ -12,6 +12,7 @@ namespace LawnM2
         internal static int width = 10;
         internal static int maxObstacles = 2;
         internal static string selectedMethod = "DFS";
+        internal static int methodNumber = 0;
 
         internal static void ShowMenu()
         {
@@ -31,8 +32,16 @@ Q - Quit Game");
                         Console.Clear();
                         string[,] garden = Garden.MakeGarden(height, width, maxObstacles);
                         Garden.ShowGarden(garden);
-                        DFS dfsRobot = new DFS(0, 0);
-                        dfsRobot.Cut(garden);
+                        if (methodNumber == 0)
+                        {
+                            DFS dfsRobot = new DFS(0, 0);
+                            dfsRobot.Cut(garden);
+                        }
+                        else if (methodNumber == 1)
+                        {
+                            BFS bfsRobot = new BFS(0, 0);
+                            bfsRobot.Cut(garden);
+                        }
                         break;
                     case "g":
                         Console.Clear();
@@ -110,12 +119,15 @@ Currently in use: {selectedMethod}");
                 switch (optSelected.Trim().ToLower())
                 {
                     case "d":
+                        methodNumber = 0; 
                         selectedMethod = "DFS";
                         break;
                     case "b":
+                        methodNumber = 1;
                         selectedMethod = "BFS";
                         break;
                     case "a":
+                        methodNumber = 2; 
                         selectedMethod = "Algorithm*";
                         break;
                     default:

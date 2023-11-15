@@ -11,12 +11,16 @@ namespace LawnM2
         protected int posX;
         protected int posY;
         protected double battery = 100;
+        protected bool[,] visited;
+        protected string[,] garden;
+
         protected Robot(int startX, int startY)
         {
             posX = startX;
             posY = startY;
         }
 
+        public abstract void Cut(string[,] arr);
         protected double BatteryLife
         {
             get
@@ -35,13 +39,11 @@ namespace LawnM2
                 }
             }
         }
-        public abstract void Cut(string[,] arr);
         protected void DecreaseBattery(double b)
         {
             BatteryLife = BatteryLife - b;
             CheckForRecharge();
         }
-
         protected void CheckForRecharge()
         {
             if (battery <= 0)
@@ -50,7 +52,11 @@ namespace LawnM2
                 battery = Convert.ToInt32(Console.ReadLine());
             }
         }
+        protected bool IsValidMove(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
+                && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
+        }
 
-        protected abstract void Explore(int x, int y);
     }
 }
