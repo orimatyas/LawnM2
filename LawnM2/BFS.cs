@@ -31,6 +31,7 @@ namespace LawnM2
                 garden[x, y] = "x ";
                 DecreaseBattery(0.5);
                 Garden.PrintGarden(garden);
+                DisplayBattery();
                 System.Threading.Thread.Sleep(50);
                 garden[x, y] = "- ";
 

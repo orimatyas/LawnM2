@@ -32,15 +32,26 @@ Q - Quit Game");
                         Console.Clear();
                         string[,] garden = Garden.MakeGarden(height, width, maxObstacles);
                         Garden.ShowGarden(garden);
+                        var (startX, startY)  = FindValidStartPosition(garden);
+                        Console.WriteLine("Press any key to start..");
+                        Console.ReadKey();
                         if (methodNumber == 0)
                         {
-                            DFS dfsRobot = new DFS(0, 0);
+                            DFS dfsRobot = new DFS(startX, startY);
                             dfsRobot.Cut(garden);
+                            dfsRobot.OverallConsumption();
                         }
                         else if (methodNumber == 1)
                         {
-                            BFS bfsRobot = new BFS(0, 0);
+                            BFS bfsRobot = new BFS(startX, startY);
                             bfsRobot.Cut(garden);
+                            bfsRobot.OverallConsumption();
+                        }
+                        else if (methodNumber == 2)
+                        {
+                            Astar astarRobot = new Astar(startX, startY);
+                            astarRobot.Cut(garden);
+                            astarRobot.OverallConsumption();
                         }
                         break;
                     case "g":
@@ -81,6 +92,7 @@ O - Number of obstacels: {maxObstacles}");
                     case "h":
                         Console.Clear();
                         Console.WriteLine("Enter the height of the garden");
+                        
                         height = Convert.ToInt32(Console.ReadLine());
                         break;
                     case "w":
@@ -139,7 +151,21 @@ Currently in use: {selectedMethod}");
             }
             while (optionsOn);
         }
+        public static (int, int) FindValidStartPosition(string[,] garden)
+        {
+            for (int i = 0; i < garden.GetLength(0); i++)
+            {
+                for (int j = 0; j < garden.GetLength(1); j++)
+                {
+                    if (garden[i, j] != "0 ")
+                    {
+                        return (i, j);
+                    }
+                }
+            }
 
+            throw new InvalidOperationException("No valid starting point found in the garden.");
+        }
 
     }
 }
