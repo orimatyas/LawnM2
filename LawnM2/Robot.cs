@@ -10,7 +10,7 @@ namespace LawnM2
     {
         protected int posX;
         protected int posY;
-        protected double battery = 100;
+        protected double battery = 1000;
         internal double totalEnergyUsed = 0;
         protected bool[,] visited;
         protected string[,] garden;
@@ -28,6 +28,7 @@ namespace LawnM2
             return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
                 && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
         }
+
         protected double BatteryLife
         {
             get
@@ -39,6 +40,7 @@ namespace LawnM2
                 battery = Math.Max(value, 0);
             }
         }
+
         protected void DecreaseBattery(double b)
         {
             double previousBatteryLife = BatteryLife;
@@ -49,13 +51,15 @@ namespace LawnM2
                 CheckForRecharge();
             }
         }
+
         protected void CheckForRecharge()
         {
                 Console.WriteLine("Recharge battery");
-                double rechargedAmount = Helpers.RechargeDoubleValidation(0, 100);
-                totalEnergyUsed += (100 - rechargedAmount);
+                double rechargedAmount = Helpers.RechargeDoubleValidation(0, 1000);
+                totalEnergyUsed += (1000 - rechargedAmount);
                 battery = rechargedAmount;
         }
+
         protected void DisplayBattery()
         {
             Console.WriteLine($"Current battery health: {battery}%");
@@ -65,5 +69,6 @@ namespace LawnM2
         {
             Console.WriteLine($"Overall energy used: {totalEnergyUsed}%");
         }
+
     }
 }

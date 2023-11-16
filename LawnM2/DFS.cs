@@ -23,7 +23,7 @@ namespace LawnM2
 
         protected void Explore(int x, int y)
         {
-            if (!IsValidMove(x, y) || visited[x, y])
+            if (!IsValidMove(x, y))
             {
                 return;
             }
@@ -54,11 +54,14 @@ namespace LawnM2
                 Garden.PrintGarden(garden);
                 System.Threading.Thread.Sleep(150);
                 garden[prevX, prevY] = "- ";
-                if (!IsDeadEnd(prevX, prevY))
+                DecreaseBattery(1);
+                DisplayBattery();
+                if (HasUnexploredAdjacent(prevX, prevY))
                 {
-                    Explore(prevX, prevY);
+                    pathStack.Push((prevX, prevY));
                     break;
                 }
+
             }
         }
 
@@ -75,6 +78,10 @@ namespace LawnM2
             return !(IsValidMove(x, y + 1) || IsValidMove(x, y - 1) ||
                      IsValidMove(x - 1, y) || IsValidMove(x + 1, y));
         }
-
+        private bool HasUnexploredAdjacent(int x, int y)
+        {
+            return IsValidMove(x + 1, y) || IsValidMove(x - 1, y) ||
+                   IsValidMove(x, y + 1) || IsValidMove(x, y - 1);
+        }
     }
 }
