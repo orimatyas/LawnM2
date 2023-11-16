@@ -22,6 +22,12 @@ namespace LawnM2
         }
 
         public abstract void Cut(string[,] arr);
+
+        protected bool IsValidMove(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
+                && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
+        }
         protected double BatteryLife
         {
             get
@@ -33,7 +39,6 @@ namespace LawnM2
                 battery = Math.Max(value, 0);
             }
         }
-        
         protected void DecreaseBattery(double b)
         {
             double previousBatteryLife = BatteryLife;
@@ -46,27 +51,19 @@ namespace LawnM2
         }
         protected void CheckForRecharge()
         {
-            if (battery <= 0)
-            {
                 Console.WriteLine("Recharge battery");
-                double rechargedAmount = Convert.ToDouble(Console.ReadLine());
+                double rechargedAmount = Helpers.RechargeDoubleValidation(0, 100);
                 totalEnergyUsed += (100 - rechargedAmount);
                 battery = rechargedAmount;
-            }
         }
         protected void DisplayBattery()
         {
             Console.WriteLine($"Current battery health: {battery}%");
         }
-        protected bool IsValidMove(int x, int y)
-        {
-            return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
-                && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
-        }
 
         internal void OverallConsumption()
         {
-            Console.WriteLine($"Overall energy used: {totalEnergyUsed}");
+            Console.WriteLine($"Overall energy used: {totalEnergyUsed}%");
         }
     }
 }

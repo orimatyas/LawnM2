@@ -25,14 +25,15 @@ S - Start Simulation
 G - Garden
 L _ Lawn Mower
 Q - Quit Game");
-                var optSelected = Console.ReadLine();
+                string[] validOptions = new string[] { "s", "g", "l", "q" };
+                var optSelected = StringValidation(validOptions);
                 switch (optSelected.Trim().ToLower())
                 {
                     case "s":
                         Console.Clear();
                         string[,] garden = Garden.MakeGarden(height, width, maxObstacles);
                         Garden.ShowGarden(garden);
-                        var (startX, startY)  = FindValidStartPosition(garden);
+                        var (startX, startY) = FindValidStartPosition(garden);
                         Console.WriteLine("Press any key to start..");
                         Console.ReadKey();
                         if (methodNumber == 0)
@@ -83,29 +84,29 @@ Q - Quit Game");
                 Console.WriteLine($@"Options:
 H - Height: {height}
 W - Width: {width}
-O - Number of obstacels: {maxObstacles}");
+O - Number of obstacels: {maxObstacles}
+X - Back to main manu...");
 
-                var optSelected = Console.ReadLine();
-
+                string[] validOptions = new string[] { "h", "w", "o", "x"};
+                var optSelected = StringValidation(validOptions);
                 switch (optSelected.Trim().ToLower())
                 {
                     case "h":
                         Console.Clear();
                         Console.WriteLine("Enter the height of the garden");
-                        
-                        height = Convert.ToInt32(Console.ReadLine());
+                        height = IntegerValidation();
                         break;
                     case "w":
                         Console.Clear();
                         Console.WriteLine("Enter the width of the garden");
-                        width = Convert.ToInt32(Console.ReadLine());
+                        width = IntegerValidation();
                         break;
                     case "o":
                         Console.Clear();
                         Console.WriteLine("Enter the the number of obstacles");
-                        maxObstacles = Convert.ToInt32(Console.ReadLine());
+                        maxObstacles = IntegerValidation();
                         break;
-                    default:
+                    case "x":
                         optionsOn = false;
                         Console.Clear();
                         break;
@@ -124,14 +125,15 @@ O - Number of obstacels: {maxObstacles}");
 D - DFS
 B - BFS
 A - Algorithm*
+X - Back to main manu...
 Currently in use: {selectedMethod}");
 
-                var optSelected = Console.ReadLine();
-
+                string[] validOptions = new string[] { "d", "b", "a", "x"};
+                var optSelected = StringValidation(validOptions);
                 switch (optSelected.Trim().ToLower())
                 {
                     case "d":
-                        methodNumber = 0; 
+                        methodNumber = 0;
                         selectedMethod = "DFS";
                         break;
                     case "b":
@@ -139,10 +141,10 @@ Currently in use: {selectedMethod}");
                         selectedMethod = "BFS";
                         break;
                     case "a":
-                        methodNumber = 2; 
+                        methodNumber = 2;
                         selectedMethod = "Algorithm*";
                         break;
-                    default:
+                    case "x":
                         optionsOn = false;
                         Console.Clear();
                         break;
@@ -166,6 +168,43 @@ Currently in use: {selectedMethod}");
 
             throw new InvalidOperationException("No valid starting point found in the garden.");
         }
-
+        public static string StringValidation(string[] validOptions)
+        {
+            while (true)
+            {
+                string input = Console.ReadLine().Trim().ToLower();
+                if (validOptions.Contains(input))
+                {
+                    return input;
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid option. Please try again with the options above.");
+                }
+            }
+        }
+        public static int IntegerValidation()
+        {
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out int input))
+                {
+                    return input;
+                }
+                Console.WriteLine($"Invalid input. Please enter a whole number.");
+            }
+        }
+        public static double RechargeDoubleValidation(int min, int max)
+        {
+            double input;
+            while (true)
+            {
+                if (double.TryParse(Console.ReadLine(), out input) && input >= min && input <= max)
+                {
+                    return input;
+                }
+                Console.WriteLine($"Invalid input. Please enter a number between {min} and {max}:");
+            }
+        }
     }
 }

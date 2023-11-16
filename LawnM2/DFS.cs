@@ -27,11 +27,11 @@ namespace LawnM2
             }
             visited[x, y] = true;
             garden[x, y] = "x ";
-            DecreaseBattery(0.5);
             Garden.PrintGarden(garden);
-            DisplayBattery();
             System.Threading.Thread.Sleep(50);
             garden[x, y] = "- ";
+            DecreaseBattery(1);
+            DisplayBattery();
             Explore(x + 1, y);
             Explore(x - 1, y);
             Explore(x, y + 1);
