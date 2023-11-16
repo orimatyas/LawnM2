@@ -28,14 +28,32 @@ namespace LawnM2
             visited[x, y] = true;
             garden[x, y] = "x ";
             Garden.PrintGarden(garden);
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(500);
             garden[x, y] = "- ";
             DecreaseBattery(1);
             DisplayBattery();
-            Explore(x + 1, y);
-            Explore(x - 1, y);
-            Explore(x, y + 1);
-            Explore(x, y - 1);
+            List<(int, int)> nextMoves = GetNextMoves(x, y);
+            foreach (var (nextX, nextY) in nextMoves)
+            {
+                if (!visited[nextX, nextY])
+                {
+                    Explore(nextX, nextY);
+                }
+            }
+
+            garden[x, y] = "- ";
+        }
+
+        private List<(int, int)> GetNextMoves(int x, int y)
+        {
+            var moves = new List<(int, int)>();
+            // Check and add all possible moves (down, up, left, right) if they are within bounds
+            if (y + 1 < garden.GetLength(1)) moves.Add((x, y + 1)); // Down
+            if (y - 1 >= 0) moves.Add((x, y - 1)); // Up
+            if (x - 1 >= 0) moves.Add((x - 1, y)); // Left
+            if (x + 1 < garden.GetLength(0)) moves.Add((x + 1, y)); // Right
+            return moves;
         }
     }
+
 }

@@ -10,7 +10,7 @@ namespace LawnM2
     {
         protected int posX;
         protected int posY;
-        protected double battery = 10;
+        protected double battery = 100;
         internal double totalEnergyUsed = 0;
         protected bool[,] visited;
         protected string[,] garden;
