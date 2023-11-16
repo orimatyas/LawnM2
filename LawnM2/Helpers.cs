@@ -10,7 +10,7 @@ namespace LawnM2
     {
         internal static int height = 10;
         internal static int width = 10;
-        internal static int maxObstacles = 14;
+        internal static int maxObstacles = 10;
         internal static string selectedMethod = "DFS";
         internal static int methodNumber = 0;
 

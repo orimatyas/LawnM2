@@ -19,41 +19,62 @@ namespace LawnM2
             Explore(posX, posY);
         }
 
+        protected Stack<(int x, int y)> pathStack = new Stack<(int x, int y)>();
+
         protected void Explore(int x, int y)
         {
-            if (!IsValidMove(x, y))
+            if (!IsValidMove(x, y) || visited[x, y])
             {
                 return;
             }
             visited[x, y] = true;
+            pathStack.Push((x, y));
             garden[x, y] = "x ";
             Garden.PrintGarden(garden);
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(150);
             garden[x, y] = "- ";
             DecreaseBattery(1);
             DisplayBattery();
-            List<(int, int)> nextMoves = GetNextMoves(x, y);
-            foreach (var (nextX, nextY) in nextMoves)
+            ExploreAdjacent(x + 1, y);
+            ExploreAdjacent(x - 1, y);
+            ExploreAdjacent(x, y + 1);
+            ExploreAdjacent(x, y - 1);
+            if (IsDeadEnd(x, y))
             {
-                if (!visited[nextX, nextY])
+                Backtrack();
+            }
+        }
+
+        private void Backtrack()
+        {
+            while (pathStack.Count > 0)
+            {
+                var (prevX, prevY) = pathStack.Pop();
+                garden[prevX, prevY] = "x "; 
+                Garden.PrintGarden(garden);
+                System.Threading.Thread.Sleep(150);
+                garden[prevX, prevY] = "- ";
+                if (!IsDeadEnd(prevX, prevY))
                 {
-                    Explore(nextX, nextY);
+                    Explore(prevX, prevY);
+                    break;
                 }
             }
-
-            garden[x, y] = "- ";
         }
 
-        private List<(int, int)> GetNextMoves(int x, int y)
+        protected void ExploreAdjacent(int x, int y)
         {
-            var moves = new List<(int, int)>();
-            // Check and add all possible moves (down, up, left, right) if they are within bounds
-            if (y + 1 < garden.GetLength(1)) moves.Add((x, y + 1)); // Down
-            if (y - 1 >= 0) moves.Add((x, y - 1)); // Up
-            if (x - 1 >= 0) moves.Add((x - 1, y)); // Left
-            if (x + 1 < garden.GetLength(0)) moves.Add((x + 1, y)); // Right
-            return moves;
+            if (IsValidMove(x, y))
+            {
+                Explore(x, y);
+            }
         }
-    }
 
+        private bool IsDeadEnd(int x, int y)
+        {
+            return !(IsValidMove(x, y + 1) || IsValidMove(x, y - 1) ||
+                     IsValidMove(x - 1, y) || IsValidMove(x + 1, y));
+        }
+
+    }
 }
