@@ -10,7 +10,7 @@ namespace LawnM2
     {
         protected int posX;
         protected int posY;
-        protected double battery = 1000;
+        protected double battery = 100.0;
         internal double totalEnergyUsed = 0;
         protected bool[,] visited;
         protected string[,] garden;
@@ -26,7 +26,7 @@ namespace LawnM2
         protected bool IsValidMove(int x, int y)
         {
             return x >= 0 && y >= 0 && x < garden.GetLength(0) && y < garden.GetLength(1)
-                && !visited[x, y] && garden[x, y] != "0 " && BatteryLife > 0;
+                && !visited[x, y] && garden[x, y] != "[O]" && BatteryLife > 0;
         }
 
         protected double BatteryLife

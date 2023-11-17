@@ -20,7 +20,6 @@ namespace LawnM2
         }
 
         protected Stack<(int x, int y)> pathStack = new Stack<(int x, int y)>();
-
         protected void Explore(int x, int y)
         {
             if (!IsValidMove(x, y))
@@ -29,16 +28,16 @@ namespace LawnM2
             }
             visited[x, y] = true;
             pathStack.Push((x, y));
-            garden[x, y] = "x ";
+            garden[x, y] = "<#>";
             Garden.PrintGarden(garden);
-            System.Threading.Thread.Sleep(150);
-            garden[x, y] = "- ";
-            DecreaseBattery(1);
+            System.Threading.Thread.Sleep(100);
+            garden[x, y] = "...";
+            DecreaseBattery(0.1);
             DisplayBattery();
-            ExploreAdjacent(x + 1, y);
-            ExploreAdjacent(x - 1, y);
-            ExploreAdjacent(x, y + 1);
-            ExploreAdjacent(x, y - 1);
+            Explore(x + 1, y);
+            Explore(x - 1, y);
+            Explore(x, y + 1);
+            Explore(x, y - 1);
             if (IsDeadEnd(x, y))
             {
                 Backtrack();
@@ -50,27 +49,40 @@ namespace LawnM2
             while (pathStack.Count > 0)
             {
                 var (prevX, prevY) = pathStack.Pop();
-                garden[prevX, prevY] = "x "; 
+                garden[prevX, prevY] = "<#>"; 
                 Garden.PrintGarden(garden);
-                System.Threading.Thread.Sleep(150);
-                garden[prevX, prevY] = "- ";
-                DecreaseBattery(1);
+                System.Threading.Thread.Sleep(100);
+                garden[prevX, prevY] = "...";
+                DecreaseBattery(0.1);
                 DisplayBattery();
                 if (HasUnexploredAdjacent(prevX, prevY))
                 {
-                    pathStack.Push((prevX, prevY));
-                    break;
+                    var nextCell = FindNextUnvisitedAdjacent(prevX, prevY);
+                    if (nextCell != null)
+                    {
+                        Explore(nextCell.Value.x, nextCell.Value.y);
+                        break;
+                    }
                 }
 
             }
         }
 
-        protected void ExploreAdjacent(int x, int y)
+        private (int x, int y)? FindNextUnvisitedAdjacent(int x, int y)
         {
-            if (IsValidMove(x, y))
-            {
-                Explore(x, y);
-            }
+            if (IsValidMove(x, y - 1) && !visited[x, y - 1])
+                return (x, y - 1);
+
+            if (IsValidMove(x, y + 1) && !visited[x, y + 1])
+                return (x, y + 1);
+
+            if (IsValidMove(x - 1, y) && !visited[x - 1, y])
+                return (x - 1, y);
+
+            if (IsValidMove(x + 1, y) && !visited[x + 1, y])
+                return (x + 1, y);
+
+            return null;
         }
 
         private bool IsDeadEnd(int x, int y)

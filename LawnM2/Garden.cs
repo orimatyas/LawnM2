@@ -17,7 +17,7 @@ namespace LawnM2
             {
                 for (int j = 0; j < y; j++)
                 {
-                    garden[i, j] = "~ ";
+                    garden[i, j] = "¤¤¤";
                 }
             }
 
@@ -27,9 +27,9 @@ namespace LawnM2
                 int randomX = random.Next(x);
                 int randomY = random.Next(y);
 
-                if (garden[randomX, randomY] == "~ ")
+                if (garden[randomX, randomY] == "¤¤¤")
                 {
-                    garden[randomX, randomY] = "0 ";
+                    garden[randomX, randomY] = "[O]";
                     obstaclesPlaced++;
                 }
             }

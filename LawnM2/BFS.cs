@@ -28,11 +28,11 @@ namespace LawnM2
                 if (!IsValidMove(x, y)) continue;
 
                 visited[x, y] = true;
-                garden[x, y] = "x ";
+                garden[x, y] = "<#>";
                 Garden.PrintGarden(garden);
-                System.Threading.Thread.Sleep(50);
-                garden[x, y] = "- ";
-                DecreaseBattery(1);
+                System.Threading.Thread.Sleep(100);
+                garden[x, y] = "...";
+                DecreaseBattery(0.1);
                 DisplayBattery();
 
                 EnqueueNeighbors(queue, x, y);
