@@ -30,7 +30,7 @@ namespace LawnM2
             pathStack.Push((x, y));
             garden[x, y] = "<#>";
             Garden.PrintGarden(garden);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(50);
             garden[x, y] = "...";
             DecreaseBattery(0.1);
             DisplayBattery();
@@ -51,7 +51,7 @@ namespace LawnM2
                 var (prevX, prevY) = pathStack.Pop();
                 garden[prevX, prevY] = "<#>"; 
                 Garden.PrintGarden(garden);
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(50);
                 garden[prevX, prevY] = "...";
                 DecreaseBattery(0.1);
                 DisplayBattery();

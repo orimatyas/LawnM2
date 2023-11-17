@@ -10,7 +10,7 @@ namespace LawnM2
     {
         protected int posX;
         protected int posY;
-        protected double battery = 100.0;
+        protected double battery = 100;
         internal double totalEnergyUsed = 0;
         protected bool[,] visited;
         protected string[,] garden;
@@ -55,19 +55,19 @@ namespace LawnM2
         protected void CheckForRecharge()
         {
                 Console.WriteLine("Recharge battery");
-                double rechargedAmount = Helpers.RechargeDoubleValidation(0, 1000);
-                totalEnergyUsed += (1000 - rechargedAmount);
+                double rechargedAmount = Helpers.RechargeDoubleValidation(0, 100);
+                totalEnergyUsed += (100 - rechargedAmount);
                 battery = rechargedAmount;
         }
 
         protected void DisplayBattery()
         {
-            Console.WriteLine($"Current battery health: {battery}%");
+            Console.WriteLine($"Current battery health: {battery:F1}%");
         }
 
         internal void OverallConsumption()
         {
-            Console.WriteLine($"Overall energy used: {totalEnergyUsed}%");
+            Console.WriteLine($"Overall energy used: {totalEnergyUsed:F1}%");
         }
 
     }
